@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 movement;                   // The vector to store the direction of the player's movement.
     Animator anim;                      // Reference to the animator component.
     Rigidbody playerRigidbody;          // Reference to the player's rigidbody.
+    Transform playerTransform;
     int floorMask;                      // A layer mask so that a ray can be cast just at gameobjects on the floor layer.
     float camRayLength = 100f;          // The length of the ray from the camera into the scene.
 
@@ -21,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
         // Set up references.
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
+        playerTransform = GetComponent<Transform>();
     }
 
 
@@ -55,6 +57,11 @@ public class PlayerMovement : MonoBehaviour
         // Turn the player to face the mouse cursor.
         Turningv2(h, v);
 
+        // Avoid the player to 'fly'
+        //if (playerTransform.position.y > 0.5f)
+        //    playerTransform.position = new Vector3(playerTransform.position.x, 0.5f, playerTransform.position.z);
+
+
     }
 
     void Move(float h, float v)
@@ -65,8 +72,12 @@ public class PlayerMovement : MonoBehaviour
         // Normalise the movement vector and make it proportional to the speed per second.
         movement = movement.normalized * speed * Time.deltaTime;
 
+        // Avoid the player to 'fly'
+        Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        if (newPosition.y >0)
+            newPosition = new Vector3(transform.position.x, 0.5f, transform.position.z);
         // Move the player to it's current position plus the movement.
-        playerRigidbody.MovePosition(transform.position + movement);
+        playerRigidbody.MovePosition(newPosition + movement);
     }
 
     void Turningv2(float h, float v)
