@@ -57,11 +57,6 @@ public class PlayerMovement : MonoBehaviour
         // Turn the player to face the mouse cursor.
         Turningv2(h, v);
 
-        // Avoid the player to 'fly'
-        //if (playerTransform.position.y > 0.5f)
-        //    playerTransform.position = new Vector3(playerTransform.position.x, 0.5f, playerTransform.position.z);
-
-
     }
 
     void Move(float h, float v)

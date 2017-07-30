@@ -15,7 +15,8 @@ public class PlayerStatus : MonoBehaviour {
         }
         if (PlayerPrefs.GetString("STATUS").Equals("GAMEOVER"))
         {
-           //Kill the player
+            //Kill the player
+            gameObject.SetActive(false);
         }
 
     }
