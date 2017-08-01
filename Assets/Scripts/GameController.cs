@@ -6,31 +6,28 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour {
 
     public Text timerNum;
-    public Text gameOverText;
+    public Text infoText;
     public Button tryAgainButton;
+    public Button homeButton;
 
-	// Use this for initialization
-	void Start () {
-        PlayerPrefs.SetString("STATUS", "ALIVE");
-        timerNum.text = "05";
+    // Use this for initialization
+    void Start () {
+        Time.timeScale = 1;
+        timerNum.text = "60";
         InvokeRepeating("ReduceTime", 1, 1);
-        tryAgainButton.gameObject.SetActive(false);
     }
 
     void ReduceTime()
     {
-        if (timerNum.text == "1")
-        {
-            /* Alert */
-            Time.timeScale = 0;
-            //winText.text = "game over!!";
-            //canvas.SetActive(true);
-            PlayerPrefs.SetString("STATUS", "GAMEOVER");
-            gameOverText.text ="Time is over!You loose!";
-            tryAgainButton.gameObject.SetActive(true);
-        }
-
+        if (PlayerPrefs.GetString("STATUS").Equals("ALIVE"))
+        {             if (timerNum.text == "1")
+            {
+                /* Alert */
+                Time.timeScale = 0;
+                PlayerPrefs.SetString("STATUS", "GAMEOVER");
+            }
         timerNum.text = (int.Parse(timerNum.text) - 1).ToString();
+        }
     }
 
     // Update is called once per frame
@@ -41,5 +38,10 @@ public class GameController : MonoBehaviour {
     public void OpenHomeScene()
     {
         SceneManager.LoadScene("Home");
+    }
+
+    public void OpenMainScene()
+    {
+        SceneManager.LoadScene("Main");
     }
 }
